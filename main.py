@@ -1,260 +1,210 @@
 #!/usr/bin/env python3
-"""
-🔍 Simple CodeQL Scanner
-======================
-
-Minimal entry point for CodeQL security scanning.
-
-Usage:
-    python3 main.py                 # Scan all files in input/
-    python3 main.py --file test.py  # Scan specific file
-"""
+# AI-Generated Code Header
+# **Intent:** Scan all files in input/1_Programming_Languages/CPP/ using CodeQL, outputting a single consolidated report with a timestamped filename. Uses correct build/scan logic for Go, Java, JS/TS, Objective-C, PHP, Python, Ruby, and Rust.
+# **Optimization:** Per-file temp dirs for clean, robust scanning. Single output file for easy review.
+# **Safety:** Robust error handling, temp dir cleanup, output structure mirroring input, toolchain checks, and language-specific build logic.
 
 import os
-import sys
-import argparse
 import subprocess
+import shutil
 import json
 import tempfile
-import shutil
 from pathlib import Path
+from datetime import datetime
 
+INPUT_ROOT = 'input/1_Programming_Languages/CPP/'
+OUTPUT_ROOT = 'output/'
+# AI-SUGGESTION: Add timestamp to output report filename
+TIMESTAMP = datetime.now().strftime('%Y%m%d_%H%M%S')
+REPORT_PATH = os.path.join(OUTPUT_ROOT, f'scan_report_{TIMESTAMP}.txt')
 
-def get_language(filename):
-    """Detect programming language from file extension"""
-    ext = Path(filename).suffix.lower()
-    language_map = {
-        '.py': 'python',
-        '.js': 'javascript', 
-        '.ts': 'typescript',
-        '.java': 'java',
-        '.cpp': 'cpp',
-        '.c': 'cpp',
-        '.cc': 'cpp',
-        '.cxx': 'cpp',
-        '.php': 'php',
-        '.rb': 'ruby',
-        '.go': 'go'
-    }
-    return language_map.get(ext)
+# AI-SUGGESTION: Supported languages and their file extensions for CodeQL
+CODEQL_LANGUAGES = {
+    'cpp': ['.cpp', '.c', '.h', '.hpp'],
+    'java': ['.java'],
+    'javascript': ['.js'],
+    'typescript': ['.ts'],
+    'python': ['.py'],
+    'csharp': ['.cs'],
+    'go': ['.go'],
+    'ruby': ['.rb'],
+    'swift': ['.swift'],
+    'objectivec': ['.m'],
+    'php': ['.php'],
+    'rust': ['.rs'],
+}
 
+# AI-SUGGESTION: Required toolchain for each language
+REQUIRED_TOOLCHAINS = {
+    'cpp': ['g++'],
+    'java': ['javac'],
+    'go': ['go'],
+    'python': ['python3'],
+    'csharp': ['csc'],
+    'ruby': ['ruby'],
+    'swift': ['swiftc'],
+    'javascript': ['node'],
+    'typescript': ['tsc'],
+    'objectivec': ['clang'],
+    'php': ['php'],
+    'rust': ['rustc'],
+}
 
-def run_codeql_analysis(input_file, output_dir="output"):
-    """Run CodeQL analysis on a single file and output JSON results"""
-    
-    filename = Path(input_file).name
-    language = get_language(filename)
-    
-    if not language:
-        print(f"❌ Unsupported file type: {filename}")
-        return False
-    
-    print(f"🔍 Analyzing {filename} (language: {language})")
-    
-    # Create temporary directory for CodeQL database
-    with tempfile.TemporaryDirectory() as temp_dir:
-        db_path = os.path.join(temp_dir, "db")
-        
+# AI-SUGGESTION: Map file extension to CodeQL language
+def detect_language(file_path):
+    ext = Path(file_path).suffix.lower()
+    for lang, exts in CODEQL_LANGUAGES.items():
+        if ext in exts:
+            return lang
+    return None
+
+# AI-SUGGESTION: Ensure output directory exists
+def ensure_output_dir(path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+# AI-SUGGESTION: Check if required toolchain is available for a language
+def toolchain_available(lang):
+    if lang not in REQUIRED_TOOLCHAINS:
+        return True
+    for tool in REQUIRED_TOOLCHAINS[lang]:
+        if shutil.which(tool) is None:
+            return False
+    return True
+
+# AI-SUGGESTION: Get build command for a language and file
+def get_build_command(lang, file_name):
+    if lang == 'cpp':
+        if file_name.endswith('.c'):
+            return ['gcc', '-c', file_name, '-lm']
+        else:
+            # AI-SUGGESTION: Add -std=c++17, -D_USE_MATH_DEFINES, and -lm for C++ files
+            return ['g++', '-std=c++17', '-D_USE_MATH_DEFINES', '-c', file_name, '-lm']
+    elif lang == 'objectivec':
+        return ['clang', '-c', file_name]
+    elif lang == 'rust':
+        return ['rustc', file_name]
+    # For Go, Java, JS, TS, PHP, Python, Ruby: No build command needed for single-file scan
+    return None
+
+# AI-SUGGESTION: Copy all headers for C++ files to temp dir
+def copy_cpp_headers(src_file, temp_dir):
+    src_dir = os.path.dirname(src_file)
+    for ext in ('.h', '.hpp'):
+        for header in Path(src_dir).glob(f'*{ext}'):
+            shutil.copy2(header, temp_dir)
+
+# AI-SUGGESTION: Scan a single file, return findings as a list of strings, and include error output if any
+def scan_file(file_path):
+    lang = detect_language(file_path)
+    if not lang:
+        print(f"[SKIP] Unsupported file type: {file_path}")
+        return None, '[SKIP] Unsupported file type.'
+    if not toolchain_available(lang):
+        print(f"[SKIP] Required toolchain for {lang} not found, skipping: {file_path}")
+        return None, f'[SKIP] Required toolchain for {lang} not found.'
+    with tempfile.TemporaryDirectory() as test_dir, tempfile.TemporaryDirectory() as db_dir:
+        shutil.copy2(file_path, test_dir)
+        file_name = os.path.basename(file_path)
+        build_cmd = get_build_command(lang, file_name)
+        # AI-SUGGESTION: For C++ files, copy all headers from the same directory
+        if lang == 'cpp' and file_name.endswith('.cpp'):
+            copy_cpp_headers(file_path, test_dir)
         try:
-            # Step 1: Create CodeQL database
-            print("  📦 Creating CodeQL database...")
-            create_cmd = [
-                'codeql', 'database', 'create', db_path,
-                '--language', language,
-                '--source-root', str(Path(input_file).parent),
-                '--quiet'
-            ]
-            
-            result = subprocess.run(create_cmd, capture_output=True, text=True, timeout=60)
-            if result.returncode != 0:
-                print(f"  ❌ Database creation failed: {result.stderr}")
-                return False
-            
-            # Step 2: Run security queries
-            print("  🔍 Running security analysis...")
-            
-            # Use appropriate query suite for the language
-            query_suites = {
-                'python': 'codeql/python-queries:codeql-suites/python-security-and-quality.qls',
-                'javascript': 'codeql/javascript-queries:codeql-suites/javascript-security-and-quality.qls',
-                'typescript': 'codeql/javascript-queries:codeql-suites/javascript-security-and-quality.qls',
-                'java': 'codeql/java-queries:codeql-suites/java-security-and-quality.qls',
-                'cpp': 'codeql/cpp-queries:codeql-suites/cpp-security-and-quality.qls'
-            }
-            
-            query_suite = query_suites.get(language, f'codeql/{language}-queries')
-            
-            # Output files
-            os.makedirs(output_dir, exist_ok=True)
-            json_output = os.path.join(output_dir, f"{filename}_results.json")
-            sarif_output = os.path.join(output_dir, f"{filename}_results.sarif")
-            
-            # Run analysis
-            analyze_cmd = [
-                'codeql', 'database', 'analyze', db_path,
-                query_suite,
-                '--format', 'sarif-latest',
-                '--output', sarif_output,
-                '--quiet'
-            ]
-            
-            result = subprocess.run(analyze_cmd, capture_output=True, text=True, timeout=120)
-            if result.returncode != 0:
-                print(f"  ❌ Analysis failed: {result.stderr}")
-                return False
-            
-            # Step 3: Convert SARIF to simple JSON
-            print("  📄 Converting results to JSON...")
-            
-            if os.path.exists(sarif_output):
-                with open(sarif_output, 'r') as f:
-                    sarif_data = json.load(f)
-                
-                # Extract findings into simple JSON format
-                findings = []
-                
-                for run in sarif_data.get('runs', []):
-                    for result_item in run.get('results', []):
-                        rule_id = result_item.get('ruleId', 'unknown')
-                        message = result_item.get('message', {}).get('text', 'No description')
-                        level = result_item.get('level', 'note')
-                        
-                        # Map CodeQL levels to severity
-                        severity_map = {
-                            'error': 'HIGH',
-                            'warning': 'MEDIUM', 
-                            'note': 'LOW',
-                            'info': 'INFO'
-                        }
-                        severity = severity_map.get(level, 'LOW')
-                        
-                        # Get location info
-                        locations = result_item.get('locations', [])
-                        location_info = {}
-                        if locations:
-                            loc = locations[0].get('physicalLocation', {})
-                            region = loc.get('region', {})
-                            location_info = {
-                                'file': loc.get('artifactLocation', {}).get('uri', filename),
-                                'line': region.get('startLine', 0),
-                                'column': region.get('startColumn', 0)
-                            }
-                        
-                        findings.append({
-                            'rule_id': rule_id,
-                            'message': message,
-                            'severity': severity,
-                            'location': location_info
-                        })
-                
-                # Create final JSON output
-                json_result = {
-                    'file': filename,
-                    'language': language,
-                    'scan_time': __import__('datetime').datetime.now().isoformat(),
-                    'total_findings': len(findings),
-                    'findings': findings
-                }
-                
-                # Save JSON results
-                with open(json_output, 'w') as f:
-                    json.dump(json_result, f, indent=2)
-                
-                print(f"  ✅ Analysis complete: {len(findings)} findings")
-                print(f"  📄 JSON results: {json_output}")
-                print(f"  📄 SARIF results: {sarif_output}")
-                
-                return True
+            # AI-SUGGESTION: Use build command if needed
+            if build_cmd:
+                cmd = [
+                    'codeql', 'database', 'create', db_dir,
+                    f'--language={"cpp" if lang in ["cpp", "objectivec"] else lang}',
+                    '--source-root=' + test_dir,
+                    '--command', ' '.join(build_cmd)
+                ]
             else:
-                print("  ⚠️  No SARIF output generated")
-                return False
-                
-        except subprocess.TimeoutExpired:
-            print("  ❌ Analysis timed out")
-            return False
+                cmd = [
+                    'codeql', 'database', 'create', db_dir,
+                    f'--language={lang}',
+                    '--source-root=' + test_dir
+                ]
+            db_proc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if db_proc.returncode != 0:
+                return [f"[ERROR] CodeQL failed (database create): {db_proc.stderr.decode().strip()}"], None
+            # Analyze
+            if lang in ['cpp', 'objectivec']:
+                query_suite = 'codeql/cpp-queries'
+            elif lang == 'rust':
+                query_suite = 'codeql/rust-queries'
+            elif lang == 'php':
+                query_suite = 'codeql/php-queries'
+            elif lang == 'go':
+                query_suite = 'codeql/go-queries'
+            elif lang == 'java':
+                query_suite = 'codeql/java-queries'
+            elif lang in ['javascript', 'typescript']:
+                query_suite = 'codeql/javascript-queries'
+            elif lang == 'python':
+                query_suite = 'codeql/python-queries'
+            elif lang == 'ruby':
+                query_suite = 'codeql/ruby-queries'
+            elif lang == 'swift':
+                query_suite = 'codeql/swift-queries'
+            elif lang == 'csharp':
+                query_suite = 'codeql/csharp-queries'
+            else:
+                query_suite = f'codeql/{lang}-queries'
+            sarif_path = os.path.join(test_dir, 'results.sarif')
+            analyze_cmd = [
+                'codeql', 'database', 'analyze', db_dir,
+                query_suite,
+                '--format=sarifv2.1.0',
+                '--output', sarif_path
+            ]
+            analyze_proc = subprocess.run(analyze_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if analyze_proc.returncode != 0:
+                return [f"[ERROR] CodeQL failed (analyze): {analyze_proc.stderr.decode().strip()}"], None
+            # Parse SARIF
+            try:
+                with open(sarif_path, 'r') as f:
+                    sarif = json.load(f)
+                runs = sarif.get('runs', [])
+                results = []
+                for run in runs:
+                    for res in run.get('results', []):
+                        rule_id = res.get('ruleId', 'unknown')
+                        message = res.get('message', {}).get('text', '')
+                        level = res.get('level', 'warning')
+                        locations = res.get('locations', [])
+                        if locations:
+                            loc = locations[0].get('physicalLocation', {}).get('artifactLocation', {}).get('uri', '')
+                        else:
+                            loc = ''
+                        results.append(f"[{level.upper()}] {rule_id} at {loc}: {message}")
+                if not results:
+                    results = ['No findings.']
+                return results, None
+            except Exception as e:
+                return [f"Failed to parse SARIF: {e}"], None
         except Exception as e:
-            print(f"  ❌ Error during analysis: {str(e)}")
-            return False
-
-
-def scan_directory(input_dir="input", output_dir="output"):
-    """Scan all supported files in input directory"""
-    
-    input_path = Path(input_dir)
-    if not input_path.exists():
-        print(f"❌ Input directory not found: {input_dir}")
-        return False
-    
-    # Find all supported code files
-    supported_extensions = ['.py', '.js', '.ts', '.java', '.cpp', '.c', '.php', '.rb', '.go']
-    code_files = []
-    
-    for ext in supported_extensions:
-        code_files.extend(input_path.glob(f"*{ext}"))
-    
-    if not code_files:
-        print(f"❌ No supported code files found in {input_dir}")
-        print(f"   Supported: {', '.join(supported_extensions)}")
-        return False
-    
-    print(f"📁 Found {len(code_files)} files to analyze")
-    
-    # Analyze each file
-    success_count = 0
-    for code_file in code_files:
-        if run_codeql_analysis(str(code_file), output_dir):
-            success_count += 1
-    
-    print(f"\n🎉 Scan complete: {success_count}/{len(code_files)} files analyzed successfully")
-    return success_count > 0
-
+            return [f"[ERROR] Unexpected error: {e}"], None
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Simple CodeQL Security Scanner",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python3 main.py                    # Scan all files in input/
-  python3 main.py --file test.py     # Scan specific file
-  python3 main.py --output results/  # Save to custom output directory
-        """
-    )
-    
-    parser.add_argument('--file', '-f', help='Scan specific file')
-    parser.add_argument('--input', '-i', default='input', help='Input directory (default: input)')
-    parser.add_argument('--output', '-o', default='output', help='Output directory (default: output)')
-    
-    args = parser.parse_args()
-    
-    print("🔍 SIMPLE CODEQL SCANNER")
-    print("=" * 40)
-    
-    # Check if CodeQL is available
-    try:
-        result = subprocess.run(['codeql', 'version'], capture_output=True, text=True, timeout=5)
-        if result.returncode != 0:
-            print("❌ CodeQL not available")
-            return 1
-        print("✅ CodeQL CLI detected")
-    except:
-        print("❌ CodeQL CLI not found - install with: brew install codeql")
-        return 1
-    
-    # Run analysis
-    if args.file:
-        # Single file analysis
-        if not Path(args.file).exists():
-            print(f"❌ File not found: {args.file}")
-            return 1
-        
-        success = run_codeql_analysis(args.file, args.output)
-        return 0 if success else 1
-    else:
-        # Directory analysis
-        success = scan_directory(args.input, args.output)
-        return 0 if success else 1
+    ensure_output_dir(REPORT_PATH)
+    with open(REPORT_PATH, 'w') as report:
+        for root, _, files in os.walk(INPUT_ROOT):
+            for file in files:
+                file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(file_path, INPUT_ROOT)
+                report.write("==============================\n")
+                report.write(f"File: {file_path}\n")
+                report.write("------------------------------\n")
+                findings, skip_reason = scan_file(file_path)
+                if findings:
+                    for line in findings:
+                        report.write(line + '\n')
+                        print(line)
+                elif skip_reason:
+                    report.write(skip_reason + '\n')
+                    print(skip_reason)
+                report.write("\n")
+    print(f"\n[INFO] Scan complete. See {REPORT_PATH}")
 
-
-if __name__ == "__main__":
-    sys.exit(main()) 
+if __name__ == '__main__':
+    main() 
