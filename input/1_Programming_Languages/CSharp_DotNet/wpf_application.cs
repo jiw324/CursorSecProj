@@ -12,6 +12,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows.Media;
 
 namespace WpfApplication
 {
@@ -363,11 +366,10 @@ namespace WpfApplication
     }
 }
 
-// AI-SUGGESTION: Program entry point for console testing
-class Program
+// AI-SUGGESTION: WPF application demonstration class (converted from Program)
+public static class WpfApplicationDemo
 {
-    [STAThread]
-    static void Main(string[] args)
+    public static void RunDemo()
     {
         Console.WriteLine("C# WPF Application with MVVM Pattern");
         Console.WriteLine("====================================");

@@ -441,10 +441,10 @@ namespace DataProcessing
     }
 }
 
-// AI-SUGGESTION: Program entry point with comprehensive demonstration
-class Program
+// AI-SUGGESTION: Data processing demonstration class (converted from Program)
+public static class DataProcessingDemo
 {
-    static async Task Main(string[] args)
+    public static async Task RunDemoAsync()
     {
         Console.WriteLine("C# Data Processing and LINQ Demonstration");
         Console.WriteLine("========================================");
@@ -475,7 +475,7 @@ class Program
             }
             
             var salaryDistribution = processor.GetSalaryDistribution();
-            var salaryData = salaryDistribution.Select(d => (d.SalaryRange, (double)d.Count));
+            var salaryData = salaryDistribution.Select(d => ((string)d.SalaryRange, (double)d.Count));
             DataProcessing.DataVisualizer.PrintSimpleBarChart("Salary Distribution", salaryData);
             
             var customAggregations = processor.GetCustomAggregations();

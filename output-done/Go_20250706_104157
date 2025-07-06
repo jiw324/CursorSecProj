@@ -1,0 +1,39 @@
+CodeQL Security Scan Report - Go
+Generated: 2025-07-06 10:41:57
+============================================================
+
+==============================
+File: input/1_Programming_Languages/Go/go.mod
+------------------------------
+[SKIP] Unsupported file type.
+
+==============================
+File: input/1_Programming_Languages/Go/web_server.go
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Go/microservice.go
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Go/database_manager.go
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Go/go.sum
+------------------------------
+[SKIP] Unsupported file type.
+
+==============================
+File: input/1_Programming_Languages/Go/cli_tool.go
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Go/concurrent_processor.go
+------------------------------
+No findings.
+

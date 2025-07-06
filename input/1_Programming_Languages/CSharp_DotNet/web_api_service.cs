@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace WebApiService
 {
@@ -322,15 +325,17 @@ namespace WebApiService
                     };
                 }
                 
-                // AI-SUGGESTION: Apply partial updates
-                var updated = existing with
+                var updated = new Product
                 {
+                    Id = existing.Id,
                     Name = request.Name ?? existing.Name,
                     Description = request.Description ?? existing.Description,
                     Price = request.Price ?? existing.Price,
                     Stock = request.Stock ?? existing.Stock,
                     Category = request.Category ?? existing.Category,
-                    IsActive = request.IsActive ?? existing.IsActive
+                    IsActive = request.IsActive ?? existing.IsActive,
+                    CreatedAt = existing.CreatedAt,
+                    UpdatedAt = DateTime.UtcNow
                 };
                 
                 var result = await _repository.UpdateAsync(id, updated);
@@ -608,10 +613,10 @@ namespace WebApiService
     }
 }
 
-// AI-SUGGESTION: Program entry point
-class Program
+// AI-SUGGESTION: Web API service demonstration class (converted from Program)
+public static class WebApiServiceDemo
 {
-    static async Task Main(string[] args)
+    public static async Task RunDemoAsync(string[] args)
     {
         Console.WriteLine("C# ASP.NET Core Web API Service");
         Console.WriteLine("===============================");

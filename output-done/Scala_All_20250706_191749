@@ -1,0 +1,250 @@
+================================================================================
+CodeQL Security Scan Report - Scala (All Files)
+================================================================================
+Scan Date: 2025-07-06 19:17:49
+Total Files Scanned: 7 Scala files
+Total Security Issues: 224
+================================================================================
+
+SECURITY VULNERABILITIES FOUND:
+----------------------------------------
+
+
+CRITICAL SEVERITY ISSUES:
+------------------------------
+[CRITICAL] Code Injection Risk at cats_zio_effects.scala:442: Code evaluation: Stream.eval(IO.println(s"Handled error: ${error.getMessage}")) >> Stream.empty
+[CRITICAL] Code Injection Risk at cats_zio_functional_effects.scala:171: Code evaluation: Stream.eval(Sync[F].delay(println(s"Error processing user: $error")))
+[CRITICAL] SQL Injection Risk at spark_data_processing.scala:102: Raw SQL string interpolation: "apache", "spark", "rdd", "dataframe", "sql", "streaming", "machine", "learning"
+[CRITICAL] SQL Injection Risk at spark_big_data.scala:70: Raw SQL string interpolation: "apache", "spark", "rdd", "dataframe", "sql", "machine", "learning"
+
+
+MEDIUM SEVERITY ISSUES:
+------------------------------
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:13: ZIO effect usage: import zio._
+[MEDIUM] Cats IO at cats_zio_effects.scala:13: Cats IO usage: import zio._
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:14: ZIO effect usage: import zio.Console._
+[MEDIUM] Cats IO at cats_zio_effects.scala:14: Cats IO usage: import zio.Console._
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:15: ZIO effect usage: import zio.Clock._
+[MEDIUM] Cats IO at cats_zio_effects.scala:15: Cats IO usage: import zio.Clock._
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:16: ZIO effect usage: import zio.Random._
+[MEDIUM] Cats IO at cats_zio_effects.scala:16: Cats IO usage: import zio.Random._
+[MEDIUM] Unsafe Access at cats_zio_effects.scala:55: Unsafe collection access: Sync[F].delay(users.get(id))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:188: ZIO effect usage: _      <- ZIO.fail(ValidationError("Email already exists")).when(exists.isDefined)
+[MEDIUM] Cats IO at cats_zio_effects.scala:188: Cats IO usage: _      <- ZIO.fail(ValidationError("Email already exists")).when(exists.isDefined)
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:189: ZIO effect usage: user   <- ZIO.succeed(User(Random.nextLong.map(_.abs).run, name, email, Instant.now()))
+[MEDIUM] Cats IO at cats_zio_effects.scala:189: Cats IO usage: user   <- ZIO.succeed(User(Random.nextLong.map(_.abs).run, name, email, Instant.now()))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:197: ZIO effect usage: updated <- ZIO.succeed(user.copy(name = name.getOrElse(user.name)))
+[MEDIUM] Cats IO at cats_zio_effects.scala:197: Cats IO usage: updated <- ZIO.succeed(user.copy(name = name.getOrElse(user.name)))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:207: ZIO effect usage: ZIO.fail(ValidationError("Name cannot be empty")).when(name.trim.isEmpty) *>
+[MEDIUM] Cats IO at cats_zio_effects.scala:207: Cats IO usage: ZIO.fail(ValidationError("Name cannot be empty")).when(name.trim.isEmpty) *>
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:208: ZIO effect usage: ZIO.fail(ValidationError("Invalid email format")).when(!email.contains("@"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:208: Cats IO usage: ZIO.fail(ValidationError("Invalid email format")).when(!email.contains("@"))
+[MEDIUM] Unsafe Access at cats_zio_effects.scala:223: Unsafe collection access: ref.get.map(_.get(id))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:260: ZIO effect usage: ZIO.foreachParN(parallelism)(items)(f).unit
+[MEDIUM] Cats IO at cats_zio_effects.scala:260: Cats IO usage: ZIO.foreachParN(parallelism)(items)(f).unit
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:265: ZIO effect usage: val acquire = ZIO.attempt {
+[MEDIUM] Cats IO at cats_zio_effects.scala:265: Cats IO usage: val acquire = ZIO.attempt {
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:270: ZIO effect usage: val release = (handle: String) => ZIO.attempt {
+[MEDIUM] Cats IO at cats_zio_effects.scala:270: Cats IO usage: val release = (handle: String) => ZIO.attempt {
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:274: ZIO effect usage: ZIO.acquireReleaseWith(acquire)(release)(use)
+[MEDIUM] Cats IO at cats_zio_effects.scala:274: Cats IO usage: ZIO.acquireReleaseWith(acquire)(release)(use)
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:297: ZIO effect usage: } yield true).commit.orElse(ZIO.succeed(false))
+[MEDIUM] Cats IO at cats_zio_effects.scala:297: Cats IO usage: } yield true).commit.orElse(ZIO.succeed(false))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:304: ZIO effect usage: producer <- ZIO.foreach(1 to 100)(i => queue.offer(s"item-$i")).fork
+[MEDIUM] Cats IO at cats_zio_effects.scala:304: Cats IO usage: producer <- ZIO.foreach(1 to 100)(i => queue.offer(s"item-$i")).fork
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:324: ZIO effect usage: ZIO.fail(new RuntimeException("Circuit breaker is open"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:324: Cats IO usage: ZIO.fail(new RuntimeException("Circuit breaker is open"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:417: Cats IO usage: .evalMap(n => IO.println(s"Processed: $n"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:425: Cats IO usage: val processor = (n: Int) => IO.delay(n * n)
+[MEDIUM] Cats IO at cats_zio_effects.scala:429: Cats IO usage: .evalMap(result => IO.println(s"Result: $result"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:442: Cats IO usage: Stream.eval(IO.println(s"Handled error: ${error.getMessage}")) >> Stream.empty
+[MEDIUM] Cats IO at cats_zio_effects.scala:444: Cats IO usage: .evalMap(i => IO.println(s"Value: $i"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:461: Cats IO usage: repository <- IO.pure(new InMemoryUserRepository[IO])
+[MEDIUM] Cats IO at cats_zio_effects.scala:470: Cats IO usage: error => IO.println(s"Error creating Alice: $error"),
+[MEDIUM] Cats IO at cats_zio_effects.scala:471: Cats IO usage: user => IO.println(s"Created user: $user")
+[MEDIUM] Cats IO at cats_zio_effects.scala:475: Cats IO usage: error => IO.println(s"Error creating Bob: $error"),
+[MEDIUM] Cats IO at cats_zio_effects.scala:476: Cats IO usage: user => IO.println(s"Created user: $user")
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:481: ZIO effect usage: ZIO.fromFuture(_ => program.unsafeToFuture())
+[MEDIUM] Cats IO at cats_zio_effects.scala:481: Cats IO usage: ZIO.fromFuture(_ => program.unsafeToFuture())
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:488: ZIO effect usage: alice <- ZIO.serviceWithZIO[UserService](_.createUser("Alice Smith", "alice@example.com"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:488: Cats IO usage: alice <- ZIO.serviceWithZIO[UserService](_.createUser("Alice Smith", "alice@example.com"))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:489: ZIO effect usage: bob   <- ZIO.serviceWithZIO[UserService](_.createUser("Bob Johnson", "bob@example.com"))
+[MEDIUM] Cats IO at cats_zio_effects.scala:489: Cats IO usage: bob   <- ZIO.serviceWithZIO[UserService](_.createUser("Bob Johnson", "bob@example.com"))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:493: ZIO effect usage: retrievedAlice <- ZIO.serviceWithZIO[UserService](_.getUser(alice.id))
+[MEDIUM] Cats IO at cats_zio_effects.scala:493: Cats IO usage: retrievedAlice <- ZIO.serviceWithZIO[UserService](_.getUser(alice.id))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:496: ZIO effect usage: updatedAlice <- ZIO.serviceWithZIO[UserService](_.updateUser(alice.id, Some("Alice Cooper")))
+[MEDIUM] Cats IO at cats_zio_effects.scala:496: Cats IO usage: updatedAlice <- ZIO.serviceWithZIO[UserService](_.updateUser(alice.id, Some("Alice Cooper")))
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:517: ZIO effect usage: _ <- ZIO.attempt {
+[MEDIUM] Cats IO at cats_zio_effects.scala:517: Cats IO usage: _ <- ZIO.attempt {
+[MEDIUM] ZIO Effect at cats_zio_effects.scala:528: ZIO effect usage: _ <- ZIO.fromFuture(_ => StreamingExamples.processNumbers.unsafeToFuture())
+[MEDIUM] Cats IO at cats_zio_effects.scala:528: Cats IO usage: _ <- ZIO.fromFuture(_ => StreamingExamples.processNumbers.unsafeToFuture())
+[MEDIUM] Unsafe Access at play_web_application.scala:165: Unsafe list head access: db.run(users.filter(_.id === id).result.headOption)
+[MEDIUM] Unsafe Access at play_web_application.scala:169: Unsafe list head access: db.run(users.filter(_.email === email).result.headOption)
+[MEDIUM] Unsafe Access at play_web_application.scala:173: Unsafe list head access: db.run(users.filter(_.username === username).result.headOption)
+[MEDIUM] Unsafe Access at play_web_application.scala:224: Unsafe list head access: db.run(products.filter(_.id === id).result.headOption)
+[MEDIUM] File System Access at play_web_application.scala:296: File system access: def updateUserProfile(id: Long, updates: Map[String, String]): Future[Option[User]] = {
+[MEDIUM] Unsafe Access at play_web_application.scala:394: Unsafe collection access: request.headers.get("Authorization").flatMap { authHeader =>
+[MEDIUM] Unsafe Access at play_web_application.scala:394: Unsafe list head access: request.headers.get("Authorization").flatMap { authHeader =>
+[MEDIUM] File System Access at play_web_application.scala:451: File system access: def getProfile(): Action[AnyContent] = authenticatedAction.async { implicit request =>
+[MEDIUM] File System Access at play_web_application.scala:455: File system access: def updateProfile(): Action[JsValue] = authenticatedAction.async(parse.json) { implicit request =>
+[MEDIUM] File System Access at play_web_application.scala:459: File system access: userService.updateUserProfile(request.user.id.get, updates).map {
+[MEDIUM] File System Access at play_web_application.scala:562: File system access: GET     /api/users/profile           controllers.UserController.getProfile()
+[MEDIUM] File System Access at play_web_application.scala:563: File system access: PUT     /api/users/profile           controllers.UserController.updateProfile()
+[MEDIUM] Unsafe Access at play_web_application.scala:569: Unsafe collection access: GET     /api/products/:id            controllers.ProductController.get(id: Long)
+[MEDIUM] Akka Actor at play_web_application.scala:597: Actor reference usage: ActorFlow.actorRef { out =>
+[MEDIUM] Akka Actor at play_web_application.scala:603: Actor reference usage: def props(out: ActorRef): Props = Props(new WebSocketActor(out))
+[MEDIUM] Akka Actor at play_web_application.scala:606: Actor reference usage: class WebSocketActor(out: ActorRef) extends Actor {
+[MEDIUM] Unsafe Access at play_web_application.scala:650: Unsafe list head access: Logger.info(s"${requestHeader.method} ${requestHeader.uri} -> ${result.header.status} (${requestTime}ms)")
+[MEDIUM] Akka Actor at akka_actor_system.scala:30: Actor reference usage: case class CreateUser(name: String, email: String, replyTo: ActorRef[StatusReply[UserCreated]]) extends UserCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:31: Actor reference usage: case class GetUser(userId: String, replyTo: ActorRef[StatusReply[User]]) extends UserCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:32: Actor reference usage: case class UpdateUser(userId: String, name: String, email: String, replyTo: ActorRef[StatusReply[UserUpdated]]) extends UserCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:33: Actor reference usage: case class DeleteUser(userId: String, replyTo: ActorRef[StatusReply[UserDeleted]]) extends UserCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:46: Actor reference usage: case class CreateOrder(customerId: String, items: List[OrderItem], replyTo: ActorRef[StatusReply[OrderCreated]]) extends OrderCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:47: Actor reference usage: case class ProcessPayment(orderId: String, amount: BigDecimal, replyTo: ActorRef[StatusReply[PaymentProcessed]]) extends OrderCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:48: Actor reference usage: case class ShipOrder(orderId: String, address: String, replyTo: ActorRef[StatusReply[OrderShipped]]) extends OrderCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:49: Actor reference usage: case class GetOrderStatus(orderId: String, replyTo: ActorRef[StatusReply[Order]]) extends OrderCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:70: Actor reference usage: case class SendEmail(to: String, subject: String, body: String, replyTo: ActorRef[StatusReply[EmailSent]]) extends NotificationCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:71: Actor reference usage: case class SendSMS(to: String, message: String, replyTo: ActorRef[StatusReply[SMSSent]]) extends NotificationCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:79: Actor reference usage: case class GetMetrics(replyTo: ActorRef[MetricsSnapshot]) extends MetricsCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:88: Actor reference usage: case class GetClusterState(replyTo: ActorRef[ClusterState]) extends ClusterCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:189: Actor reference usage: notificationActor: ActorRef[Protocol.NotificationCommand],
+[MEDIUM] Akka Actor at akka_actor_system.scala:190: Actor reference usage: metricsActor: ActorRef[Protocol.MetricsCommand]
+[MEDIUM] Unsafe Access at akka_actor_system.scala:207: Unsafe collection access: orders.get(orderId) match {
+[MEDIUM] Unsafe Access at akka_actor_system.scala:242: Unsafe collection access: orders.get(orderId) match {
+[MEDIUM] Unsafe Access at akka_actor_system.scala:268: Unsafe collection access: orders.get(orderId) match {
+[MEDIUM] Akka Actor at akka_actor_system.scala:428: Actor reference usage: case class GetChildren(replyTo: ActorRef[Set[String]]) extends SupervisorCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:436: Actor reference usage: private def supervision(children: Map[String, ActorRef[_]]): Behavior[SupervisorCommand] = {
+[MEDIUM] Unsafe Access at akka_actor_system.scala:455: Unsafe collection access: children.get(name) match {
+[MEDIUM] Unsafe Access at akka_actor_system.scala:466: Unsafe collection access: children.get(name) match {
+[MEDIUM] Akka Actor at akka_actor_system.scala:502: Actor reference usage: def initSharding(system: ActorSystem[_]): ActorRef[ShardingEnvelope[UserCommand]] = {
+[MEDIUM] Akka Actor at akka_actor_system.scala:517: Actor reference usage: case class ProcessDataStream(source: Source[String, _], replyTo: ActorRef[StreamResult]) extends StreamCommand
+[MEDIUM] Akka Actor at akka_actor_system.scala:518: Actor reference usage: case class GetProcessingStats(replyTo: ActorRef[ProcessingStats]) extends StreamCommand
+[MEDIUM] Unsafe Access at functional_programming_patterns.scala:7: Unsafe list tail access: import scala.annotation.tailrec
+[MEDIUM] Unsafe Access at functional_programming_patterns.scala:128: Unsafe list head access: def peek: Option[A] = items.headOption
+[MEDIUM] Unsafe Access at functional_programming_patterns.scala:356: Unsafe list head access: else cons(as.head, apply(as.tail: _*))
+[MEDIUM] Unsafe Access at functional_programming_patterns.scala:356: Unsafe list tail access: else cons(as.head, apply(as.tail: _*))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:12: ZIO effect usage: import zio._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:12: Cats IO usage: import zio._
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:13: ZIO effect usage: import zio.console._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:13: Cats IO usage: import zio.console._
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:14: ZIO effect usage: import zio.clock._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:14: Cats IO usage: import zio.clock._
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:15: ZIO effect usage: import zio.random._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:15: Cats IO usage: import zio.random._
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:16: ZIO effect usage: import zio.blocking._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:16: Cats IO usage: import zio.blocking._
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:17: ZIO effect usage: import zio.duration._
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:17: Cats IO usage: import zio.duration._
+[MEDIUM] Unsafe Access at cats_zio_functional_effects.scala:54: Unsafe collection access: Sync[F].delay(users.get(id))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:202: ZIO effect usage: _      <- ZIO.fail(ValidationError("Email already exists")).when(exists.isDefined)
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:202: Cats IO usage: _      <- ZIO.fail(ValidationError("Email already exists")).when(exists.isDefined)
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:203: ZIO effect usage: user   <- ZIO.succeed(User(Random.nextLong.abs, name, email, Instant.now()))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:203: Cats IO usage: user   <- ZIO.succeed(User(Random.nextLong.abs, name, email, Instant.now()))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:211: ZIO effect usage: updated <- ZIO.succeed(user.copy(name = name.getOrElse(user.name)))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:211: Cats IO usage: updated <- ZIO.succeed(user.copy(name = name.getOrElse(user.name)))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:221: ZIO effect usage: ZIO.fail(ValidationError("Name cannot be empty")).when(name.trim.isEmpty) *>
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:221: Cats IO usage: ZIO.fail(ValidationError("Name cannot be empty")).when(name.trim.isEmpty) *>
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:222: ZIO effect usage: ZIO.fail(ValidationError("Invalid email format")).when(!email.contains("@"))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:222: Cats IO usage: ZIO.fail(ValidationError("Invalid email format")).when(!email.contains("@"))
+[MEDIUM] Unsafe Access at cats_zio_functional_effects.scala:237: Unsafe collection access: ref.get.map(_.get(id))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:274: ZIO effect usage: ZIO.collectAllParN(parallelism)(items.map(f)).unit
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:274: Cats IO usage: ZIO.collectAllParN(parallelism)(items.map(f)).unit
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:279: ZIO effect usage: val acquire = ZIO.effect {
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:279: Cats IO usage: val acquire = ZIO.effect {
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:284: ZIO effect usage: val release = (handle: String) => ZIO.effect {
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:284: Cats IO usage: val release = (handle: String) => ZIO.effect {
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:311: ZIO effect usage: } yield true).commit.orElse(ZIO.succeed(false))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:311: Cats IO usage: } yield true).commit.orElse(ZIO.succeed(false))
+[MEDIUM] Cats EitherT at cats_zio_functional_effects.scala:400: EitherT transformer: // AI-SUGGESTION: EitherT for error handling in Future context
+[MEDIUM] Cats EitherT at cats_zio_functional_effects.scala:401: EitherT transformer: type Result[A] = EitherT[IO, AppError, A]
+[MEDIUM] Cats EitherT at cats_zio_functional_effects.scala:405: EitherT transformer: if (id > 0) EitherT.rightT(user)
+[MEDIUM] Cats EitherT at cats_zio_functional_effects.scala:406: EitherT transformer: else EitherT.leftT(NotFoundError("User", id))
+[MEDIUM] File System Access at cats_zio_functional_effects.scala:409: File system access: def fetchUserProfile(userId: Long): Result[String] = {
+[MEDIUM] Cats EitherT at cats_zio_functional_effects.scala:412: EitherT transformer: profile <- EitherT.rightT[IO, AppError](s"Profile for ${user.name}")
+[MEDIUM] Cats OptionT at cats_zio_functional_effects.scala:416: OptionT transformer: // AI-SUGGESTION: OptionT for handling optional values
+[MEDIUM] Cats OptionT at cats_zio_functional_effects.scala:417: OptionT transformer: type MaybeResult[A] = OptionT[IO, A]
+[MEDIUM] Cats OptionT at cats_zio_functional_effects.scala:423: OptionT transformer: OptionT.fromOption[IO](user)
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:432: Cats IO usage: IO.delay(s"Connected to ${config.dbUrl}")
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:438: Cats IO usage: IO.delay(s"API call with key: ${config.apiKey}")
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:514: Cats IO usage: repository <- IO.pure(new InMemoryUserRepository[IO])
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:524: Cats IO usage: error => IO.delay(println(s"Error creating Alice: $error")),
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:525: Cats IO usage: user => IO.delay(println(s"Created user: $user"))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:529: Cats IO usage: error => IO.delay(println(s"Error creating Bob: $error")),
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:530: Cats IO usage: user => IO.delay(println(s"Created user: $user"))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:534: Cats IO usage: error => IO.delay(println(s"Expected validation error: $error")),
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:535: Cats IO usage: user => IO.delay(println(s"Unexpected success: $user"))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:541: Cats IO usage: IO.delay(println(s"Application error: $error"))
+[MEDIUM] ZIO Effect at cats_zio_functional_effects.scala:551: ZIO effect usage: service <- ZIO.service[UserService]
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:551: Cats IO usage: service <- ZIO.service[UserService]
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:578: Cats IO usage: _ <- IO.delay(println("=== Functional Effects Examples ==="))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:584: Cats IO usage: runtime <- IO.delay(Runtime.default)
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:585: Cats IO usage: _ <- IO.fromFuture(IO.delay(
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:592: Cats IO usage: _ <- IO.delay {
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:602: Cats IO usage: _ <- IO.delay(println("=== End Functional Effects Examples ==="))
+[MEDIUM] Cats IO at cats_zio_functional_effects.scala:607: Cats IO usage: IO.delay {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:2: DataFrame usage: // including RDDs, DataFrames, Spark SQL, streaming, machine learning, and big data analytics.
+[MEDIUM] Spark Context at spark_data_processing.scala:99: Spark context usage: val numbers = spark.sparkContext.parallelize(1 to 1000000)
+[MEDIUM] Spark Context at spark_data_processing.scala:100: Spark context usage: val words = spark.sparkContext.parallelize(Array(
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:102: DataFrame usage: "apache", "spark", "rdd", "dataframe", "sql", "streaming", "machine", "learning"
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:138: DataFrame usage: // DATAFRAME AND DATASET OPERATIONS
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:141: DataFrame usage: // AI-SUGGESTION: High-level DataFrame API for structured data
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:142: DataFrame usage: def dataFrameOperationsExample(spark: SparkSession): Unit = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:151: DataFrame usage: println("=== DataFrame Basic Operations ===")
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:481: DataFrame usage: def generateCustomerData(spark: SparkSession, numCustomers: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:502: DataFrame usage: def generateProductData(spark: SparkSession, numProducts: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:521: DataFrame usage: def generateOrderData(spark: SparkSession, numOrders: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:540: DataFrame usage: def generateMLFeatureData(spark: SparkSession, numCustomers: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:560: DataFrame usage: spark.createDataFrame(data).toDF(
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:565: DataFrame usage: def generateTimeSeriesData(spark: SparkSession, numRecords: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:580: DataFrame usage: spark.createDataFrame(data).toDF("timestamp", "category", "value", "quantity")
+[MEDIUM] Spark Context at spark_data_processing.scala:663: Spark context usage: spark.sparkContext.setLogLevel("WARN")
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:669: DataFrame usage: // DataFrame operations
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:670: DataFrame usage: println("\n2. DataFrame Operations Example")
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:671: DataFrame usage: SparkDataProcessing.dataFrameOperationsExample(spark)
+[MEDIUM] Spark DataFrame at spark_data_processing.scala:692: DataFrame usage: println("  - DataFrame and Dataset operations")
+[MEDIUM] Spark DataFrame at spark_big_data.scala:2: DataFrame usage: // including RDDs, DataFrames, Spark SQL, and machine learning pipelines.
+[MEDIUM] Spark Context at spark_big_data.scala:64: Spark context usage: val sc = spark.sparkContext
+[MEDIUM] Spark DataFrame at spark_big_data.scala:70: DataFrame usage: "apache", "spark", "rdd", "dataframe", "sql", "machine", "learning"
+[MEDIUM] Spark DataFrame at spark_big_data.scala:96: DataFrame usage: // AI-SUGGESTION: DataFrame operations for structured data
+[MEDIUM] Spark DataFrame at spark_big_data.scala:97: DataFrame usage: def dataFrameOperationsExample(spark: SparkSession): Unit = {
+[MEDIUM] Spark DataFrame at spark_big_data.scala:274: DataFrame usage: def generateCustomerData(spark: SparkSession, count: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_big_data.scala:294: DataFrame usage: def generateProductData(spark: SparkSession, count: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_big_data.scala:312: DataFrame usage: def generateOrderData(spark: SparkSession, count: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_big_data.scala:330: DataFrame usage: def generateMLData(spark: SparkSession, count: Int): DataFrame = {
+[MEDIUM] Spark DataFrame at spark_big_data.scala:343: DataFrame usage: spark.createDataFrame(data).toDF(
+[MEDIUM] Spark Context at spark_big_data.scala:360: Spark context usage: spark.sparkContext.setLogLevel("WARN")
+[MEDIUM] Spark DataFrame at spark_big_data.scala:365: DataFrame usage: println("\n2. DataFrame Operations")
+[MEDIUM] Spark DataFrame at spark_big_data.scala:366: DataFrame usage: SparkBigDataProcessing.dataFrameOperationsExample(spark)
+[MEDIUM] Spark DataFrame at spark_big_data.scala:377: DataFrame usage: println("  - DataFrame structured operations")
+
+
+LOW SEVERITY ISSUES:
+------------------------------
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:74: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:185: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:195: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:291: ZIO for comprehension: (for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:302: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:392: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:460: ZIO for comprehension: val program: IO[Unit] = for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:486: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_effects.scala:503: ZIO for comprehension: val program = for {
+[LOW] ZIO For Comprehension at play_web_application.scala:264: ZIO for comprehension: for {
+[LOW] Exception Handling at functional_programming_patterns.scala:385: Exception catching: catch { case e: Exception => Failure(e) }
+[LOW] ZIO For Comprehension at functional_programming_patterns.scala:390: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:73: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:199: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:209: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:305: ZIO for comprehension: (for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:316: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:410: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:443: ZIO for comprehension: for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:513: ZIO for comprehension: val program = for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:549: ZIO for comprehension: val program = for {
+[LOW] ZIO For Comprehension at cats_zio_functional_effects.scala:577: ZIO for comprehension: val program = for {
+[LOW] Exception Handling at spark_data_processing.scala:699: Exception catching: } catch {
+[LOW] Exception Handling at spark_big_data.scala:382: Exception catching: } catch {
+
+================================================================================
+Scan completed successfully.
+================================================================================

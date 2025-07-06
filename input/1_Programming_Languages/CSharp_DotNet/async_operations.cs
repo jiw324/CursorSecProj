@@ -12,6 +12,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.IO;
+using System.Threading.Channels;
+using System.Runtime.CompilerServices;
 
 namespace AsyncOperations
 {
@@ -153,7 +155,7 @@ namespace AsyncOperations
         private readonly List<Task> _workers = new();
         private readonly int _workerCount;
         
-        public AsyncTaskScheduler(int workerCount = Environment.ProcessorCount)
+        public AsyncTaskScheduler(int workerCount = 4)
         {
             _workerCount = workerCount;
         }
@@ -569,10 +571,10 @@ namespace AsyncOperations
     }
 }
 
-// AI-SUGGESTION: Program entry point
-class Program
+// AI-SUGGESTION: Async operations demonstration class (converted from Program)
+public static class AsyncOperationsDemo
 {
-    static async Task Main(string[] args)
+    public static async Task RunDemoAsync()
     {
         Console.WriteLine("C# Async Operations Demonstration");
         Console.WriteLine("=================================");

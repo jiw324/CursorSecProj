@@ -1,0 +1,31 @@
+CodeQL Security Scan Report - Ruby
+Generated: 2025-07-06 11:08:47
+============================================================
+
+==============================
+File: input/1_Programming_Languages/Ruby/data_processing_analytics.rb
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Ruby/background_job_processor.rb
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Ruby/api_service_auth.rb
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Ruby/automation_scripts.rb
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Ruby/web_application_framework.rb
+------------------------------
+[WARNING] rb/bad-tag-filter at web_application_framework.rb: This regular expression does not match script end tags like </script >.
+[WARNING] rb/incomplete-multi-character-sanitization at web_application_framework.rb: This string may still contain [on](1), which may cause an HTML attribute injection vulnerability.
+[WARNING] rb/incomplete-multi-character-sanitization at web_application_framework.rb: This string may still contain [<script](1), which may cause an HTML element injection vulnerability.
+

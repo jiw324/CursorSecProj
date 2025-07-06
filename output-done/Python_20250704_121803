@@ -1,0 +1,29 @@
+CodeQL Security Scan Report - Python
+Generated: 2025-07-04 12:18:03
+============================================================
+
+==============================
+File: input/1_Programming_Languages/Python/async_concurrency_patterns.py
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Python/ecommerce_api.py
+------------------------------
+[WARNING] py/flask-debug at ecommerce_api.py: A Flask app appears to be run in debug mode. This may allow an attacker to run arbitrary code through the debugger.
+
+==============================
+File: input/1_Programming_Languages/Python/fastapi_microservice.py
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Python/web_scraping_automation.py
+------------------------------
+No findings.
+
+==============================
+File: input/1_Programming_Languages/Python/ml_data_pipeline.py
+------------------------------
+No findings.
+

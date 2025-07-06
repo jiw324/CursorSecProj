@@ -541,10 +541,10 @@ namespace EnterpriseSystem
     }
 }
 
-// AI-SUGGESTION: Program entry point
-class Program
+// AI-SUGGESTION: Enterprise system demonstration class (converted from Program)
+public static class EnterpriseSystemDemo
 {
-    static async Task Main(string[] args)
+    public static async Task RunDemoAsync()
     {
         Console.WriteLine("C# Enterprise System Demonstration");
         Console.WriteLine("==================================");

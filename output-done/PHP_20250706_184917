@@ -1,0 +1,64 @@
+CodeQL Security Scan Report - PHP
+Generated: 2025-07-06 18:49:17
+============================================================
+
+==============================
+File: input/1_Programming_Languages/PHP/rest_api_server.php
+------------------------------
+[HIGH] sql-injection at rest_api_server.php:755: SQL Injection via $_GET
+[HIGH] sql-injection at rest_api_server.php:756: SQL Injection via $_GET
+[HIGH] sql-injection at rest_api_server.php:759: SQL Injection via $_GET
+[HIGH] sql-injection at rest_api_server.php:760: SQL Injection via $_GET
+[HIGH] sql-injection at rest_api_server.php:310: SQL Injection via query method
+[HIGH] sql-injection at rest_api_server.php:326: SQL Injection via query method
+[HIGH] sql-injection at rest_api_server.php:519: SQL Injection via query method
+[HIGH] sql-injection at rest_api_server.php:913: SQL Injection via query method
+[HIGH] sql-injection at rest_api_server.php:938: SQL Injection via query method
+[HIGH] insecure-file-operation at rest_api_server.php:192: Insecure file operation: file_get_contents with variable
+[HIGH] insecure-file-operation at rest_api_server.php:202: Insecure file operation: file_put_contents with variable
+
+==============================
+File: input/1_Programming_Languages/PHP/mvc_web_application.php
+------------------------------
+[HIGH] sql-injection at mvc_web_application.php:557: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:623: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:625: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:662: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:663: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:664: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:751: SQL Injection via $_POST
+[HIGH] sql-injection at mvc_web_application.php:752: SQL Injection via $_POST
+[MEDIUM] session-security at mvc_web_application.php:491: Session security: session_start without parameters
+
+==============================
+File: input/1_Programming_Languages/PHP/database_manager.php
+------------------------------
+[CRITICAL] command-injection at database_manager.php:454: Command Injection via exec
+[CRITICAL] command-injection at database_manager.php:594: Command Injection via exec
+[CRITICAL] command-injection at database_manager.php:604: Command Injection via exec
+
+==============================
+File: input/1_Programming_Languages/PHP/security_utilities.php
+------------------------------
+[HIGH] sql-injection at security_utilities.php:373: SQL Injection via $_GET
+[HIGH] sql-injection at security_utilities.php:373: SQL Injection via $_POST
+[MEDIUM] weak-cryptography at security_utilities.php:811: Weak cryptography: MD5
+[MEDIUM] weak-cryptography at security_utilities.php:825: Weak cryptography: MD5
+[MEDIUM] weak-cryptography at security_utilities.php:833: Weak cryptography: MD5
+[MEDIUM] weak-cryptography at security_utilities.php:460: Weak encoding: base64
+[HIGH] insecure-file-operation at security_utilities.php:674: Insecure file operation: file_get_contents with variable
+[HIGH] insecure-file-operation at security_utilities.php:814: Insecure file operation: file_get_contents with variable
+[HIGH] insecure-file-operation at security_utilities.php:826: Insecure file operation: file_put_contents with variable
+[MEDIUM] session-security at security_utilities.php:380: Session security: session_start without parameters
+
+==============================
+File: input/1_Programming_Languages/PHP/ecommerce_system.php
+------------------------------
+[HIGH] sql-injection at ecommerce_system.php:644: SQL Injection via query method
+[CRITICAL] command-injection at ecommerce_system.php:647: Command Injection via exec
+[CRITICAL] command-injection at ecommerce_system.php:769: Command Injection via exec
+[CRITICAL] command-injection at ecommerce_system.php:801: Command Injection via exec
+[MEDIUM] weak-cryptography at ecommerce_system.php:303: Weak cryptography: MD5
+[MEDIUM] session-security at ecommerce_system.php:309: Session security: session_start without parameters
+[MEDIUM] session-security at ecommerce_system.php:320: Session security: session_start without parameters
+
