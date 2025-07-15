@@ -1,156 +1,42 @@
-# LaTeX temporary files
-*.aux
-*.log
-*.toc
-*.lof
-*.lot
+# Output directories
+output/
+**/output/
+
+# Build directories
+build/
+**/build/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C/C++ build files
+*.o
+*.obj
+*.exe
 *.out
-*.synctex.gz
-*.fls
-*.fdb_latexmk
-*.bbl
-*.blg
-*.run.xml
-*.bcf
+*.dll
+*.so
+*.dylib
 
-# Specific LaTeX files to ignore
-Paper.latex
-
-# BibTeX
-*.bib.bak
-*.bib.sav
-
-# PDF output (uncomment if you don't want to track the compiled PDF)
-# *.pdf
-
-# Editor temporary files
-*~
-*.swp
-*.swo
+# IDE and editor files
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
-# Operating system files
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Build directory
-build/
-dist/
+# Log files
+*.log 
 
-# Custom LaTeX packages
-*.sty
-!packages/*.sty
-
-# Backup files
-*.backup
-*.bak
-
-# Latexmk
-.latexmk/
-
-# Glossaries
-*.acn
-*.acr
-*.glg
-*.glo
-*.gls
-*.glsdefs
-*.ist
-
-# Makeindex
-*.idx
-*.ilg
-*.ind
-*.lol
-
-# Beamer
-*.nav
-*.snm
-*.vrb
-
-# Changes tool
-*.chg
-*.soc
-
-# Listings
-*.lol
-
-# Makeidx
-*.idx
-*.ilg
-*.ind
-*.ist
-
-# minitoc
-*.maf
-*.mtc
-*.mtc0
-
-# minted
-_minted*/
-*.pyg
-
-# nomencl
-*.nlo
-*.nls
-
-# sagetex
-*.sagetex.sage
-*.sagetex.py
-*.sagetex.scmd
-
-# sympy
-*.sout
-*.sympy
-sympy-plots-for-*.tex/
-
-# pdfcomment
-*.upa
-*.upb
-
-# pythontex
-*.pytxcode
-pythontex-files-*/
-
-# TikZ & PGF
-*.dpth
-*.md5
-*.auxlock
-
-# todonotes
-*.tdo
-
-# xindy
-*.xdy
-
-# WinEdt
-*.bak
-*.sav
-
-# Texpad
-.texpadtmp
-
-# LyX
-*.lyx~
-*.lyx#
-
-# Kile
-*.kilepr
-.kile
-
-# KBibTeX
-*~[0-9]*
-
-# TeXnicCenter
-*.tps
-
-# auto folder when using emacs and auctex
-./auto/*
-*.el
-
-# expex forward references with \gathertags
-*-tags.tex
-
-# standalone packages
-*.sta 
+Paper.latex
