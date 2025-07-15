@@ -13,6 +13,9 @@
 *.run.xml
 *.bcf
 
+# Specific LaTeX files to ignore
+Paper.latex
+
 # BibTeX
 *.bib.bak
 *.bib.sav
