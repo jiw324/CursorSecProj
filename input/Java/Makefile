@@ -1,28 +1,32 @@
-# Java Makefile
+# Tools
+PYTHON = python3
+SCANNER = ./java_security_scanner.py
 
 # Directories
-BUILD_DIR=../../build/Java
-OUTPUT_DIR=../../output/Java_security_scan
+OUTPUT_DIR = ../../output/java_security_scan
+SOURCE_DIR = src/main/java/com/example
 
-# Java environment
-export JAVA_HOME=/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home
-export PATH:=$(JAVA_HOME)/bin:$(PATH)
+# Targets
+.PHONY: all clean scan
 
-all: $(BUILD_DIR) $(OUTPUT_DIR)
-	@echo "Using Java at: $$(which java)"
-	@java -version
-	mvn clean compile
-	python3 java_security_scanner.py . $(OUTPUT_DIR)
-
-$(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+all: scan
 
 $(OUTPUT_DIR):
-	mkdir -p $(OUTPUT_DIR)
+	@mkdir -p $(OUTPUT_DIR)
+
+scan: $(OUTPUT_DIR)
+	@echo "Running Java security scanner..."
+	@chmod +x $(SCANNER)
+	@cd $(SOURCE_DIR) && \
+	for file in *.java; do \
+		if [ -f "$$file" ]; then \
+			basename=$$(basename $$file .java); \
+			$(PYTHON) ../../../../../$(SCANNER) $$file ../../../../../$(OUTPUT_DIR)/$$basename\_security_report.txt; \
+			echo "Scanned $$file"; \
+		fi \
+	done
+	@echo "Java security scanning complete. Reports saved in $(OUTPUT_DIR)/"
 
 clean:
-	mvn clean
-	rm -rf $(BUILD_DIR)
 	rm -rf $(OUTPUT_DIR)
-
-.PHONY: all clean 
+	@echo "Cleaned output directory" 
