@@ -150,4 +150,5 @@ pythontex-files-*/
 *-tags.tex
 
 # standalone packages
-*.sta 
+*.sta
+
