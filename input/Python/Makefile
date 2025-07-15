@@ -10,8 +10,8 @@ PYTHON := python3
 # Scanner script
 SCANNER := python_security_scanner.py
 
-# Find all Python files
-PY_FILES := $(wildcard *.py)
+# Find all Python files except the scanner itself
+PY_FILES := $(filter-out $(SCANNER),$(wildcard *.py))
 OUTPUT_FILES := $(PY_FILES:%.py=$(OUTPUT_DIR)/%.txt)
 
 .PHONY: all clean scan
