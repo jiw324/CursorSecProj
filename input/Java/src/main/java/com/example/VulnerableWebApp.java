@@ -34,13 +34,13 @@ public class VulnerableWebApp extends HttpServlet {
     private static class Session {
         String userId, username;
         boolean isAdmin;
-        Date created;
+        java.util.Date created;
         
         Session(String userId, String username, boolean isAdmin) {
             this.userId = userId;
             this.username = username;
             this.isAdmin = isAdmin;
-            this.created = new Date();
+            this.created = new java.util.Date();
         }
     }
     
@@ -51,7 +51,7 @@ public class VulnerableWebApp extends HttpServlet {
         String path = request.getPathInfo();
         if (path == null) path = "/";
         
-        System.out.println("[" + new Date() + "] GET " + path);
+        System.out.println("[" + new java.util.Date() + "] GET " + path);
         
         switch (path) {
             case "/":
@@ -84,7 +84,7 @@ public class VulnerableWebApp extends HttpServlet {
         String path = request.getPathInfo();
         if (path == null) path = "/";
         
-        System.out.println("[" + new Date() + "] POST " + path);
+        System.out.println("[" + new java.util.Date() + "] POST " + path);
         
         switch (path) {
             case "/login":
@@ -413,7 +413,7 @@ public class VulnerableWebApp extends HttpServlet {
             
             Map<String, String> info = new HashMap<>();
             info.put("system_info", output.toString());
-            info.put("timestamp", new Date().toString());
+            info.put("timestamp", new java.util.Date().toString());
             
             response.setContentType("application/json");
             response.getWriter().write(new Gson().toJson(info));

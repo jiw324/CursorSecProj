@@ -1,6 +1,9 @@
 import java.io.*;
 import java.sql.*;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 import java.security.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -26,7 +29,7 @@ public class VulnerableDatabaseManager {
         int id;
         String username, password, email;
         boolean isAdmin;
-        Date createdAt, lastLogin;
+        java.util.Date createdAt, lastLogin;
         
         User(int id, String username, String password, String email, boolean isAdmin) {
             this.id = id;
@@ -34,7 +37,7 @@ public class VulnerableDatabaseManager {
             this.password = password;
             this.email = email;
             this.isAdmin = isAdmin;
-            this.createdAt = new Date();
+            this.createdAt = new java.util.Date();
         }
     }
     
@@ -58,7 +61,7 @@ public class VulnerableDatabaseManager {
         int id, userId, productId, quantity;
         double total;
         String status;
-        Date createdAt;
+        java.util.Date createdAt;
         
         Order(int id, int userId, int productId, int quantity, double total, String status) {
             this.id = id;
@@ -67,19 +70,19 @@ public class VulnerableDatabaseManager {
             this.quantity = quantity;
             this.total = total;
             this.status = status;
-            this.createdAt = new Date();
+            this.createdAt = new java.util.Date();
         }
     }
     
     private static class DatabaseOperation {
         String type, table, details;
-        Date timestamp;
+        java.util.Date timestamp;
         
         DatabaseOperation(String type, String table, String details) {
             this.type = type;
             this.table = table;
             this.details = details;
-            this.timestamp = new Date();
+            this.timestamp = new java.util.Date();
         }
     }
     

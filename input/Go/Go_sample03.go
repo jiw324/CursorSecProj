@@ -4,13 +4,38 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
+
+type Category struct {
+	ID          int
+	Name        string
+	Description string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+}
+
+type Product struct {
+	ID          int
+	Name        string
+	Description string
+	Price       float64
+	Stock       int
+	CategoryID  int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	IsActive    bool
+}
+
+type ProductWithCategory struct {
+	Product
+	CategoryName        string
+	CategoryDescription string
+}
 
 type DatabaseManager struct {
 	db           *sql.DB
@@ -23,6 +48,71 @@ type Migration struct {
 	Version int
 	Name    string
 	SQL     string
+}
+
+type QueryBuilder struct {
+	query     strings.Builder
+	args      []interface{}
+	whereUsed bool
+}
+
+func NewQueryBuilder() *QueryBuilder {
+	return &QueryBuilder{
+		args: make([]interface{}, 0),
+	}
+}
+
+func (qb *QueryBuilder) Select(fields ...string) *QueryBuilder {
+	qb.query.WriteString("SELECT ")
+	qb.query.WriteString(strings.Join(fields, ", "))
+	return qb
+}
+
+func (qb *QueryBuilder) From(table string) *QueryBuilder {
+	qb.query.WriteString(" FROM ")
+	qb.query.WriteString(table)
+	return qb
+}
+
+func (qb *QueryBuilder) Where(condition string, args ...interface{}) *QueryBuilder {
+	if qb.whereUsed {
+		qb.query.WriteString(" AND ")
+	} else {
+		qb.query.WriteString(" WHERE ")
+		qb.whereUsed = true
+	}
+	qb.query.WriteString(condition)
+	qb.args = append(qb.args, args...)
+	return qb
+}
+
+func (qb *QueryBuilder) OrderBy(field string, desc bool) *QueryBuilder {
+	qb.query.WriteString(" ORDER BY ")
+	qb.query.WriteString(field)
+	if desc {
+		qb.query.WriteString(" DESC")
+	}
+	return qb
+}
+
+func (qb *QueryBuilder) Limit(limit int) *QueryBuilder {
+	qb.query.WriteString(fmt.Sprintf(" LIMIT %d", limit))
+	return qb
+}
+
+func (qb *QueryBuilder) Offset(offset int) *QueryBuilder {
+	qb.query.WriteString(fmt.Sprintf(" OFFSET %d", offset))
+	return qb
+}
+
+func (qb *QueryBuilder) Join(join string) *QueryBuilder {
+	qb.query.WriteString(" ")
+	qb.query.WriteString(join)
+	return qb
+}
+
+func (qb *QueryBuilder) Build() (string, []interface{}) {
+	return qb.query.String(), qb.args
 }
 
 func NewDatabaseManager(dataSourceName string) (*DatabaseManager, error) {
@@ -302,30 +392,26 @@ func (dm *DatabaseManager) GetProductByID(id int) (*Product, error) {
 }
 
 func (dm *DatabaseManager) GetProductsWithCategory(limit, offset int, categoryID *int, minPrice, maxPrice *float64) ([]*ProductWithCategory, error) {
-	qb := NewQueryBuilder("products p")
+	qb := NewQueryBuilder()
 	qb.Select("p.id", "p.name", "p.description", "p.price", "p.stock", "p.category_id", "p.created_at", "p.updated_at", "p.is_active", "c.name as category_name")
+	qb.From("products p")
 	qb.Join("JOIN categories c ON p.category_id = c.id")
 	
-	var args []interface{}
-	
 	if categoryID != nil {
-		qb.Where("p.category_id = ?")
-		args = append(args, *categoryID)
+		qb.Where("p.category_id = ?", *categoryID)
 	}
 	
 	if minPrice != nil {
-		qb.Where("p.price >= ?")
-		args = append(args, *minPrice)
+		qb.Where("p.price >= ?", *minPrice)
 	}
 	
 	if maxPrice != nil {
-		qb.Where("p.price <= ?")
-		args = append(args, *maxPrice)
+		qb.Where("p.price <= ?", *maxPrice)
 	}
 	
-	qb.OrderBy("p.name").Limit(limit).Offset(offset)
+	qb.OrderBy("p.name", false).Limit(limit).Offset(offset)
 	
-	query := qb.Build()
+	query, args := qb.Build()
 	
 	rows, err := dm.db.Query(query, args...)
 	if err != nil {

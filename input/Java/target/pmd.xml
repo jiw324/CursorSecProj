@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd" version="6.55.0" timestamp="2025-07-15T17:55:57.094">
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/ConcurrentDataProcessor.java">
+<violation beginline="9" endline="9" begincolumn="1" endcolumn="35" rule="UnnecessaryImport" ruleset="Code Style" package="com.concurrent.processor" class="ConcurrentDataProcessor" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.function.Function'
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/DesignPatternsShowcase.java">
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="35" rule="UnnecessaryImport" ruleset="Code Style" package="com.patterns.showcase" class="DesignPatternsShowcase" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.function.Function'
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/EnterpriseApplication.java">
+<violation beginline="6" endline="6" begincolumn="1" endcolumn="36" rule="UnnecessaryImport" ruleset="Code Style" package="com.enterprise.application" class="EnterpriseApplication" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.util.function.Predicate'
+</violation>
+<violation beginline="476" endline="476" begincolumn="22" endcolumn="30" rule="UnusedLocalVariable" ruleset="Best Practices" package="com.enterprise.application" class="EnterpriseApplication" method="runDemo" variable="customer3" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedlocalvariable" priority="3">
+Avoid unused local variables such as 'customer3'.
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/Java_sample02.java">
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="37" rule="UnnecessaryImport" ruleset="Code Style" package="com.analytics.engine" class="SalesRecord" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.temporal.ChronoUnit'
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/Main.java">
+<violation beginline="31" endline="31" begincolumn="1" endcolumn="26" rule="UnnecessaryImport" ruleset="Code Style" package="com.example" class="Main" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.time.Duration'
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/VulnerableDatabaseManager.java">
+<violation beginline="7" endline="7" begincolumn="1" endcolumn="23" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableDatabaseManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.*'
+</violation>
+<violation beginline="8" endline="8" begincolumn="1" endcolumn="28" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableDatabaseManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.math.BigInteger'
+</violation>
+<violation beginline="9" endline="9" begincolumn="1" endcolumn="35" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableDatabaseManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.MessageDigest'
+</violation>
+<violation beginline="10" endline="10" begincolumn="1" endcolumn="46" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableDatabaseManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.NoSuchAlgorithmException'
+</violation>
+<violation beginline="19" endline="19" begincolumn="31" endcolumn="39" rule="UnusedPrivateField" ruleset="Best Practices" class="VulnerableDatabaseManager" variable="userCache" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'userCache'.
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/VulnerableFileManager.java">
+<violation beginline="17" endline="17" begincolumn="35" endcolumn="43" rule="UnusedPrivateField" ruleset="Best Practices" class="VulnerableFileManager" variable="fileCache" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'fileCache'.
+</violation>
+<violation beginline="19" endline="19" begincolumn="20" endcolumn="25" rule="UnusedPrivateField" ruleset="Best Practices" class="VulnerableFileManager" variable="random" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'random'.
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/VulnerableMemoryManager.java">
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="23" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableMemoryManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.*'
+</violation>
+<violation beginline="5" endline="5" begincolumn="1" endcolumn="27" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableMemoryManager" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.lang.reflect.*'
+</violation>
+<violation beginline="10" endline="10" begincolumn="30" endcolumn="48" rule="UnusedPrivateField" ruleset="Best Practices" class="VulnerableMemoryManager" variable="DEFAULT_BUFFER_SIZE" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'DEFAULT_BUFFER_SIZE'.
+</violation>
+<violation beginline="11" endline="11" begincolumn="30" endcolumn="44" rule="UnusedPrivateField" ruleset="Best Practices" class="VulnerableMemoryManager" variable="MAX_BUFFER_SIZE" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'MAX_BUFFER_SIZE'.
+</violation>
+</file>
+<file name="/Users/rongyuna/Desktop/temp/CursorSecProj/input/Java/src/main/java/com/example/VulnerableWebApp.java">
+<violation beginline="2" endline="2" begincolumn="1" endcolumn="18" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableWebApp" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.net.*'
+</violation>
+<violation beginline="3" endline="3" begincolumn="1" endcolumn="23" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableWebApp" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.security.*'
+</violation>
+<violation beginline="4" endline="4" begincolumn="1" endcolumn="18" rule="UnnecessaryImport" ruleset="Code Style" class="VulnerableWebApp" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryimport" priority="4">
+Unused import 'java.sql.*'
+</violation>
+<violation beginline="37" endline="37" begincolumn="9" endcolumn="22" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" class="VulnerableWebApp$Session" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.*'
+</violation>
+<violation beginline="43" endline="43" begincolumn="32" endcolumn="45" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" class="VulnerableWebApp$Session" method="Session" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.*'
+</violation>
+<violation beginline="54" endline="54" begincolumn="38" endcolumn="51" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" class="VulnerableWebApp" method="doGet" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.*'
+</violation>
+<violation beginline="87" endline="87" begincolumn="38" endcolumn="51" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" class="VulnerableWebApp" method="doPost" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.*'
+</violation>
+<violation beginline="101" endline="101" begincolumn="49" endcolumn="55" rule="UnusedFormalParameter" ruleset="Best Practices" class="VulnerableWebApp" method="handleIndex" variable="request" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_bestpractices.html#unusedformalparameter" priority="3">
+Avoid unused method parameters such as 'request'.
+</violation>
+<violation beginline="416" endline="416" begincolumn="39" endcolumn="52" rule="UnnecessaryFullyQualifiedName" ruleset="Code Style" class="VulnerableWebApp" method="getSystemInfo" externalInfoUrl="https://pmd.github.io/pmd-6.55.0/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname" priority="4">
+Unnecessary use of fully qualified name 'java.util.Date' due to existing import 'java.util.*'
+</violation>
+</file>
+</pmd>
