@@ -18,10 +18,6 @@ This project provides a suite of security scanners for different programming lan
 
 ```
 CursorSecProj/
-├── build/                      # Centralized build directory
-│   ├── C/                     # C build artifacts
-│   ├── CPP/                   # C++ build artifacts
-│   └── ...                    # Other language build artifacts
 ├── output/                    # Scan results and reports
 │   ├── C_security_scan/      # C scanner output
 │   ├── CPP_security_scan/    # C++ scanner output
